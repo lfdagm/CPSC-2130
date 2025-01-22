@@ -8,8 +8,14 @@
   </head>
   <body>
     <!-- <div> -->
+    <nav>
+      <div></div>
+      <button>Explore Books</button>
+      <button>About us</button>
+      <button>Sign Up</button>
+    </nav>
     <header>
-      <h1>Little Readers</h1>
+      <h1>Little <span>Readers</span></h1>
       <!-- <div class="background-video-container"> -->
       <div class="overlay"></div>
       <video muted autoplay loop id="background-video">
@@ -25,7 +31,7 @@
       <!-- </div> -->
     </header>
     <main class="wrapper">
-      <section>
+      <section id="trio">
         <video muted autoplay loop id="video1-trio">
           <source src="media/video/7488030-hd_1080_1920_30fps.mp4" />
         </video>
@@ -38,13 +44,17 @@
           <source src="media/video/8471678-uhd_2160_4096_25fps.mp4" />
         </video>
       </section>
-      <section>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus
-          doloremque voluptas quas blanditiis fugiat, ea repudiandae fugit vitae
-          unde asperiores quam eligendi temporibus labore excepturi distinctio
-          suscipit dolor soluta repellendus.
-        </p>
+      <section id="reading-promotion">
+        <div class="fixed-word">
+          <h2>Reading</h2>
+        </div>
+        <div class="moving-words">
+          <span class="animated-words">empowers</span>
+          <span class="animated-words">inspires</span>
+          <span class="animated-words">transforms</span>
+          <!-- <span class="animated-words">empowers</span> -->
+          <!-- <span class="animated-words">transforms</span> -->
+        </div>
       </section>
 
       <!-- <section></section> -->
