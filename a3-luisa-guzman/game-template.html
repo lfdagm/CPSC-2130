@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Game Template</title>
+
+    <style>
+      canvas {
+        border: 1px solid black;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="demoCanvas" width="400" height="300"></canvas>
+
+    <script type="text/javascript">
+      let canvas = document.getElementById("demoCanvas");
+      let context = canvas.getContext("2d");
+
+      // SETUP AND INITIALIZATION OF ANIMATION AND GAME LOGIC GOES HERE
+
+      let imgs = [];
+      let numImages = 11;
+
+      let numImagesLoaded = 0;
+
+      for (let i = 1; i <= numImages; i++) {
+        var img = new Image();
+        img.src = "camel-frames/camel-" + i + ".png";
+        imgs.push(img);
+        img.onload = function () {
+          numImagesLoaded++;
+          if (numImagesLoaded >= numImages) {
+            startGame();
+          }
+        };
+      }
+
+      //Camel
+      let x = 130;
+      let y = 70;
+      let currentImage = 0;
+
+      //Tree
+      let treeRadiusX = 16;
+      let treeRadiusY = 47;
+      let treeX = 300;
+      let treeY = 148;
+
+      //Cloud
+      let cloudRadiusX = 80;
+      let cloudRadiusY = 20;
+      let cloudX = canvas.width - (cloudRadiusX - 42);
+      let cloudY = 57;
+
+      startGame();
+
+      function startGame() {
+        updateGame();
+        window.requestAnimationFrame(drawGame);
+      }
+
+      function updateGame() {
+        // GAME AND ANIMATION LOGIC GOES HERE
+
+        //Camel running and looping back to the start
+        if (currentImage == imgs.length - 1) {
+          currentImage = 0;
+        }
+        currentImage = currentImage + 1;
+
+        //Tree
+        if (treeX <= 0 - treeRadiusX) {
+          treeX = canvas.width + treeRadiusX;
+        }
+        treeX = treeX - 1.95;
+
+        //Cloud
+        if (cloudX <= 0 - cloudRadiusX) {
+          cloudX = canvas.width + cloudRadiusX;
+        }
+        cloudX = cloudX - 1.05;
+
+        // CHANGE THE NUMBER OF MILLISECONDS TO ADJUST FRAME RATE
+        // window.setTimeout(updateGame, 100);
+        window.setTimeout(updateGame, 90);
+      }
+
+      function drawGame() {
+        context.clearRect(0, 0, canvas.width, canvas.height);
+
+        // RENDERING HAPPENS HERE
+
+        //Sky
+        context.beginPath();
+        context.rect(0, 0, 400, 180);
+        context.fillStyle = "rgb(174,215,230)";
+        context.fill();
+
+        //Tree
+        context.beginPath();
+        context.ellipse(
+          treeX,
+          treeY,
+          treeRadiusX,
+          treeRadiusY,
+          0,
+          0,
+          2 * Math.PI
+        );
+        context.fillStyle = "rgb(41,120,76)";
+        context.fill();
+
+        //Cloud
+        context.beginPath();
+        context.ellipse(
+          cloudX,
+          cloudY,
+          cloudRadiusX,
+          cloudRadiusY,
+          0,
+          0,
+          2 * Math.PI
+        );
+        context.fillStyle = "rgb(255,255,255,255)";
+        context.fill();
+
+        //Grass
+        context.beginPath();
+        context.rect(0, 170, 400, 130);
+        context.fillStyle = "rgb(62,179,114)";
+        context.fill();
+
+        //Shadow
+        context.beginPath();
+        context.ellipse(200, 190, 35, 6, 0, 0, 2 * Math.PI);
+        context.fillStyle = "rgb(46,139,89)";
+        context.fill();
+
+        //Camel
+        context.drawImage(imgs[currentImage], x, y);
+
+        window.requestAnimationFrame(drawGame);
+      }
+    </script>
+  </body>
+</html>
