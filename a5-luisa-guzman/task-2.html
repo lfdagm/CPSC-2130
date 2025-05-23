@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Task 2</title>
+  </head>
+  <body>
+    <script>
+      let sourceImage = new Image();
+      sourceImage.src = "photographer-cat.jpg";
+      sourceImage.onload = function () {
+        let sourceCanvas = document.createElement("canvas");
+        let sourceContext = sourceCanvas.getContext("2d");
+
+        let filterCanvas = document.createElement("canvas");
+        let filterContext = filterCanvas.getContext("2d");
+
+        document.body.append(sourceCanvas);
+        document.body.append(filterCanvas);
+
+        let w = sourceImage.width;
+        let h = sourceImage.height;
+
+        sourceCanvas.width = filterCanvas.width = w;
+        sourceCanvas.height = filterCanvas.height = h;
+
+        sourceContext.drawImage(sourceImage, 0, 0);
+
+        let sourceData = sourceContext.getImageData(0, 0, w, h);
+        let sourceRGBA = sourceData.data;
+
+        let filterData = new ImageData(w, h);
+        let filterRGBA = filterData.data;
+
+        for (let x = 0; x < w; x++) {
+          for (let y = 0; y < h; y++) {
+            i = (y * w + x) * 4;
+
+            let r = sourceRGBA[i]; // red
+            let g = sourceRGBA[i + 1]; /// green
+            let b = sourceRGBA[i + 2]; // blue
+            let a = sourceRGBA[i + 3]; // alpha/transparency
+
+            filterRGBA[i + 3] = 255;
+
+            //   filterRGBA[i] = r/2;
+            //   filterRGBA[i + 1] = g/2;
+            //   filterRGBA[i + 2] = b/2;
+            // filterRGBA[i+3] = a;
+
+            function edgeFilter() {
+              //If it's greater than top row of pixels (x=0) and left column (y=0), process image; otherwise, paint it with original values.
+
+              if (x > 0 && y > 0) {
+                //RGB data in pixel above
+                iPixelAbove = ((y - 1) * w + x) * 4;
+                let rAbove = sourceRGBA[iPixelAbove];
+                let gAbove = sourceRGBA[iPixelAbove + 1];
+                let bAbove = sourceRGBA[iPixelAbove + 2];
+                let avgAbove = (rAbove + gAbove + bAbove) / 3;
+
+                //RGB data in pixel to the left
+                iPixelLeft = (y * w + x - 1) * 4;
+                let rLeft = sourceRGBA[iPixelLeft];
+                let gLeft = sourceRGBA[iPixelLeft + 1];
+                let bLeft = sourceRGBA[iPixelLeft + 2];
+                let avgLeft = (rLeft + gLeft + bLeft) / 3;
+
+                //Average in current pixel
+                let avgCurrent = (r + g + b) / 3;
+
+                //Difference margin
+                let threshold = 8;
+
+                //If the difference between avg in current pixel and average in the pixel above OR average in pixel to the left is higher than threshold, paint the edges in color black.
+                //If the difference is less than threshold, so the values are more similar, paint it white
+                if (
+                  Math.abs(avgCurrent - avgAbove) > threshold ||
+                  Math.abs(avgCurrent - avgLeft) > threshold
+                ) {
+                  filterRGBA[i] = 0;
+                  filterRGBA[i + 1] = 0;
+                  filterRGBA[i + 2] = 0;
+                  // filterRGBA[i + 3] = 255;
+                } else {
+                  filterRGBA[i] = 255;
+                  filterRGBA[i + 1] = 255;
+                  filterRGBA[i + 2] = 255;
+                }
+              } else {
+                filterRGBA[i] = r;
+                filterRGBA[i + 1] = g;
+                filterRGBA[i + 2] = b;
+              }
+            }
+            edgeFilter();
+          }
+        }
+        filterContext.putImageData(filterData, 0, 0);
+      };
+    </script>
+  </body>
+</html>

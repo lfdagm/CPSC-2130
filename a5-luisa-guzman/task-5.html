@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Task 5</title>
+  </head>
+  <body>
+    <script>
+      let sourceImage = new Image();
+      sourceImage.src = "heart-cat.png";
+      sourceImage.onload = function () {
+        let sourceCanvas = document.createElement("canvas");
+        let sourceContext = sourceCanvas.getContext("2d");
+
+        let filterCanvas = document.createElement("canvas");
+        let filterContext = filterCanvas.getContext("2d");
+
+        document.body.append(sourceCanvas);
+        document.body.append(filterCanvas);
+
+        let w = sourceImage.width;
+        let h = sourceImage.height;
+
+        sourceCanvas.width = filterCanvas.width = w;
+        sourceCanvas.height = filterCanvas.height = h;
+
+        sourceContext.drawImage(sourceImage, 0, 0);
+
+        let sourceData = sourceContext.getImageData(0, 0, w, h);
+        let sourceRGBA = sourceData.data;
+
+        let filterData = new ImageData(w, h);
+        let filterRGBA = filterData.data;
+
+        for (let x = 0; x < w; x++) {
+          for (let y = 0; y < h; y++) {
+            i = (y * w + x) * 4;
+
+            let r = sourceRGBA[i]; // red
+            let g = sourceRGBA[i + 1]; /// green
+            let b = sourceRGBA[i + 2]; // blue
+            let a = sourceRGBA[i + 3]; // alpha/transparency
+
+            filterRGBA[i + 3] = 255;
+
+            function diffuse(radius) {
+              //width=2*radius
+              radius /= 2;
+
+              let xLowerRange = x - radius;
+              let xUpperRange = x + radius;
+              let yLowerRange = y - radius;
+              let yUpperRange = y + radius;
+
+              let randomX = Math.floor(
+                Math.random() * (xUpperRange - xLowerRange + 1) + xLowerRange
+              );
+              let randomY = Math.floor(
+                Math.random() * (yUpperRange - yLowerRange + 1) + yLowerRange
+              );
+
+              if (randomX < 0 || randomX > w || randomY < 0 || randomY > h) {
+                filterRGBA[i] = r;
+                filterRGBA[i + 1] = g;
+                filterRGBA[i + 2] = b;
+              } else {
+                let indexRandomPixel = (randomY * w + randomX) * 4;
+
+                filterRGBA[i] = sourceRGBA[indexRandomPixel];
+                filterRGBA[i + 1] = sourceRGBA[indexRandomPixel + 1];
+                filterRGBA[i + 2] = sourceRGBA[indexRandomPixel + 2];
+              }
+            }
+            diffuse(20);
+          }
+        }
+        filterContext.putImageData(filterData, 0, 0);
+      };
+    </script>
+  </body>
+</html>
