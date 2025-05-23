@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Google Fonts here -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@700&display=swap"
+      rel="stylesheet"
+    />
+
+    <title>Game Template</title>
+
+    <style>
+      html {
+        /* Basic typography */
+        font-family: sans-serif;
+        line-height: 1.3;
+        background-color: rgb(0, 0, 0);
+      }
+
+      body {
+        margin: 0;
+      }
+
+      .attribution {
+        border: 4px dashed rgb(25, 25, 166);
+        padding: 1rem;
+        margin: 40vh 0 5vh 0;
+        background-color: black;
+        color: white;
+      }
+
+      main,
+      header {
+        /* center content */
+        max-width: 1000px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      main {
+        /* two-column grid */
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+      }
+
+      main section {
+        border: 4px dashed rgb(25, 25, 166);
+        padding: 0.5rem;
+
+        background-color: rgb(0, 0, 0);
+        color: rgb(255, 255, 255);
+      }
+
+      /* Use the following class to hide elements visually by allow them to be accessed by screen readers. You may want to do this if pulling some text to be used in your JavaScript animation. Code from here: https://www.a11yproject.com/posts/how-to-hide-content/ */
+      .visually-hidden {
+        clip: rect(0 0 0 0);
+        clip-path: inset(50%);
+        height: 1px;
+        overflow: hidden;
+        position: absolute;
+        white-space: nowrap;
+        width: 1px;
+      }
+
+      canvas {
+        box-sizing: border-box;
+        background-color: rgb(0, 0, 0);
+        /* border: 3px solid red; */
+
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: -1;
+      }
+
+      footer {
+        padding: 3rem 3rem;
+        margin: 3rem 0 0 0;
+        background-color: rgb(255, 255, 0);
+      }
+
+      /*Same table from assignment 2*/
+      table {
+        border: 2px solid rgb(0, 0, 0);
+        width: 100%;
+      }
+
+      th {
+        background-color: rgb(255, 255, 255);
+        border: 0.5px dotted rgb(0, 0, 0);
+        padding: 1rem;
+      }
+
+      td {
+        border: 0.5px dotted rgb(0, 0, 0);
+        background-color: rgb(255, 255, 255);
+        padding: 1rem;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="demoCanvas" width="1024" height="1024"></canvas>
+
+    <div class="wrapper">
+      <header>
+        <h1 class="visually-hidden">Hello Digital Art!</h1>
+
+        <p class="attribution">All Content From Wikipedia</p>
+      </header>
+      <main>
+        <section>
+          <h2 id="requirements">Requirements</h2>
+
+          <p>
+            Event type: Mouse events such as: mousemove, mouseenter, mousedown,
+            etc.
+          </p>
+          <p>
+            Collision type: Circles intersecting or distance-based (As we
+            covered this in the lesson, the expectations for the challenge level
+            and sophistication of your approach will be higher.)
+          </p>
+        </section>
+
+        <section>
+          <h2 id="instructions">Instructions</h2>
+
+          <p>
+            Move the mouse over the "Hello Digital Art!" heading while the
+            moving circle collides with the circle-letters. There is a
+            transparent circle (pointer circle) that follows the mouse
+            coordinates. Therefore, passing the mouse over the heading and the
+            moving circle triggers a collision. The circle-letters and moving
+            circle follow the pointer while they are colliding. They can be
+            moved again while the circle animation is still running. The
+            animation ends when the moving circle had collided four times with
+            the laterals and the heading content is permanently revealed.
+          </p>
+
+          <p>
+            The moving circle collides with the letter-circles and, upon
+            collision, the letters are revealed. In addition, the PacMan
+            collides with the squares; however, there is no instruction for that
+            animation.
+          </p>
+        </section>
+
+        <section>
+          <h2 id="generative-art">Generative Art</h2>
+
+          <p>
+            From
+            <a href="https://en.wikipedia.org/wiki/Generative_art">Wikipedia</a>
+          </p>
+
+          <p>
+            Generative art refers to art that in whole or in part has been
+            created with the use of an autonomous system. An autonomous system
+            in this context is generally one that is non-human and can
+            independently determine features of an artwork that would otherwise
+            require decisions made directly by the artist. In some cases the
+            human creator may claim that the generative system represents their
+            own artistic idea, and in others that the system takes on the role
+            of the creator.
+          </p>
+        </section>
+
+        <section>
+          <h2 id="neural-style-transfer">Neural Style Transfer</h2>
+
+          <p>
+            From
+            <a href="https://en.wikipedia.org/wiki/Neural_style_transfer"
+              >Wikipedia</a
+            >
+          </p>
+
+          <p>
+            Neural style transfer (NST) refers to a class of software algorithms
+            that manipulate digital images, or videos, in order to adopt the
+            appearance or visual style of another image. NST algorithms are
+            characterized by their use of deep neural networks for the sake of
+            image transformation. Common uses for NST are the creation of
+            artificial artwork from photographs, for example by transferring the
+            appearance of famous paintings to user-supplied photographs. Several
+            notable mobile apps use NST techniques for this purpose, including
+            DeepArt and Prisma. This method has been used by artists and
+            designers around the globe to develop new artwork based on existent
+            style(s).
+          </p>
+        </section>
+
+        <section>
+          <h2 id="articial-intelligence-art">Artificial Intelligence Art</h2>
+
+          <p>
+            From
+            <a href="https://en.wikipedia.org/wiki/Artificial_intelligence_art"
+              >Wikipedia</a
+            >
+          </p>
+
+          <p>
+            Artificial intelligence art is any visual artwork created through
+            the use of artificial intelligence (AI) programs.
+          </p>
+
+          <p>
+            Artists began to create AI art in the mid to late-20th century, when
+            the discipline was founded. In the early 21st century, the
+            availability of AI art tools to the general public increased,
+            providing opportunities for use outside of academia and professional
+            artists. Throughout its history, artificial intelligence art has
+            raised many philosophical concerns, including those related to
+            copyright, deception and its impact on traditional artists,
+            including their incomes.
+          </p>
+        </section>
+
+        <section>
+          <h2 id="synthetic-media">Synthetic Media</h2>
+
+          <p>
+            From
+            <a href="https://en.wikipedia.org/wiki/Synthetic_media"
+              >Wikipedia</a
+            >
+          </p>
+
+          <p>
+            Synthetic media (also known as AI-generated media,[1][2] media
+            produced by generative AI,[3] personalized media, personalized
+            content,[4] and colloquially as deepfakes[5]) is a catch-all term
+            for the artificial production, manipulation, and modification of
+            data and media by automated means, especially through the use of
+            artificial intelligence algorithms, such as for the purpose of
+            misleading people or changing an original meaning.[6][7][9]
+            Synthetic media as a field has grown rapidly since the creation of
+            generative adversarial networks, primarily through the rise of
+            deepfakes as well as music synthesis, text generation, human image
+            synthesis, speech synthesis, and more.
+          </p>
+        </section>
+      </main>
+      <footer>
+        <table>
+          <caption>
+            Sources
+          </caption>
+          <col />
+          <col />
+          <col />
+          <thead>
+            <tr>
+              <th scope="col">Name</th>
+              <th scope="col">URL</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Original PacMan</td>
+              <td>
+                <a
+                  href="https://en.m.wikipedia.org/wiki/File:Original_PacMan.png"
+                  >https://en.m.wikipedia.org/wiki/File:Original_PacMan.png</a
+                >
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Better positioning of text using measureText with HTML5 Canvas
+              </td>
+              <td>
+                <a
+                  href="https://chewett.co.uk/blog/1166/better-positioning-of-text-using-measuretext-with-html5-canvas/"
+                  >https://chewett.co.uk/blog/1166/better-positioning-of-text-using-measuretext-with-html5-canvas/</a
+                >
+              </td>
+            </tr>
+            <tr>
+              <td>Pac-Man Game Color Scheme</td>
+              <td>
+                <a href="https://www.schemecolor.com/pac-man-game-colors.php"
+                  >https://www.schemecolor.com/pac-man-game-colors.php</a
+                >
+              </td>
+            </tr>
+            <tr>
+              <td>Pac-Man Ghosts colors with Hex & RGB Codes</td>
+              <td>
+                <a
+                  href="https://www.schemecolor.com/pac-man-ghosts-color-palette.php"
+                  >https://www.schemecolor.com/pac-man-ghosts-color-palette.php</a
+                >
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </footer>
+    </div>
+
+    <script type="text/javascript">
+      var canvas = document.getElementById("demoCanvas");
+      var context = canvas.getContext("2d");
+
+      // SETUP AND INITIALIZATION OF ANIMATION AND GAME LOGIC GOES HERE
+
+      //Fonts
+
+      document.fonts.load("70px 'Silkscreen'").then(function () {
+        context.font = "70px 'Silkscreen'";
+        context.fillText(this.letter, this.x, this.y + 25);
+      });
+
+      // ### Code for updating mouse coordinates on window resize and scroll ###
+
+      let canvasBox;
+
+      function orientationSwap() {
+        if (window.innerWidth > window.innerHeight) {
+          canvas.style.width = "100%";
+          canvas.style.height = "auto";
+        } else {
+          canvas.style.width = "auto";
+          canvas.style.height = "100vh";
+        }
+      }
+
+      function resetBoundingBox() {
+        canvasBox = canvas.getBoundingClientRect();
+      }
+
+      orientationSwap();
+      resetBoundingBox();
+
+      window.addEventListener("resize", function () {
+        resetBoundingBox();
+        orientationSwap();
+      });
+
+      window.addEventListener("scroll", resetBoundingBox);
+
+      //  ### Mouse Coordinates ###
+
+      let mouseX = canvas.width;
+      let mouseY = canvas.height;
+
+      function updateMouseCoordinates(event) {
+        mouseX = event.clientX - canvasBox.left;
+        mouseY = event.clientY - canvasBox.top;
+
+        mouseX = mouseX * (canvas.width / canvasBox.width);
+        mouseY = mouseY * (canvas.height / canvasBox.height);
+      }
+
+      document.body.addEventListener("mousemove", updateMouseCoordinates);
+
+      document.body.addEventListener("wheel", updateMouseCoordinates);
+
+      // ### Color palette ###
+
+      let circleColors = [
+        "rgb(255, 0, 0)",
+        "rgb(255, 184, 255)",
+        "rgb(0, 255, 255)",
+        "rgb(255, 184, 82)",
+        "rgb(33, 33, 222)",
+        "rgb(0, 255, 0)",
+      ];
+
+      // ### CLASSES ###
+
+      class Circle {
+        constructor(x, y, color, vx) {
+          this.x = x;
+          this.y = y;
+          this.originalX = x;
+          this.originalY = y;
+          this.color = color;
+          this.previousColor = "";
+          this.radius = 30;
+          this.letter = "";
+          this.vx = vx;
+          this.vy = 0;
+          this.collided = false;
+          this.letterRevealed = false;
+          this.timesPassed = 0;
+          this.moved = false;
+        }
+
+        move() {
+          this.x += this.vx;
+        }
+
+        //Render circle with color only if letters haven't been revealed
+        render() {
+          if (!this.letterRevealed) {
+            context.strokeStyle = this.color;
+            context.fillStyle = this.color;
+            context.beginPath();
+            context.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
+            context.stroke();
+            context.fill();
+          }
+        }
+
+        revealUponCollision(otherX, otherY, otherRadius) {
+          let distance = Math.sqrt(
+            (this.x - otherX) ** 2 + (this.y - otherY) ** 2
+          );
+
+          let colliding = distance < this.radius + otherRadius;
+
+          if (colliding && !this.collided) {
+            this.collided = true;
+            this.letterRevealed = !this.letterRevealed;
+            this.setCircleColor();
+          } else if (!colliding) {
+            this.collided = false;
+          }
+        }
+
+        setCircleColor() {
+          if (this.letterRevealed) {
+            this.previousColor = this.color;
+            this.color = "transparent";
+          } else {
+            this.color = this.previousColor;
+          }
+        }
+
+        //Render letters only if they were revealed (because there was a collision that revealed them)
+        renderLetters() {
+          if (this.letterRevealed) {
+            context.font = "70px 'Silkscreen'";
+            context.textAlign = "center";
+            context.fillStyle = "rgb(255, 255, 0)";
+            context.fillText(this.letter, this.x, this.y + 25);
+          }
+        }
+
+        //Bounce in the opposite direction.
+        checkCollisionWithLaterals() {
+          if (
+            this.x + this.radius >= canvas.width ||
+            this.x - this.radius <= 0
+          ) {
+            this.vx = -this.vx;
+            this.timesPassed++;
+            // console.log(this.timesPassed);
+          }
+        }
+
+        revealPermanently() {
+          this.letterRevealed = true;
+          this.x = this.originalX;
+          this.y = this.originalY;
+        }
+
+        moveToAfterCollision(otherX, otherY, otherRadius) {
+          let distance = Math.sqrt(
+            (this.x - otherX) ** 2 + (this.y - otherY) ** 2
+          );
+
+          let colliding = distance < this.radius + otherRadius;
+          if (colliding && !this.moved) {
+            this.moved = true;
+            this.follow(otherX, otherY);
+            this.vx += 1;
+          }
+          if (!colliding) {
+            this.moved = false;
+          }
+        }
+
+        follow(otherCircleX, otherCircleY) {
+          this.x = otherCircleX;
+          this.y = otherCircleY;
+        }
+
+        stopMoving() {
+          this.vx = 0;
+          this.color = "transparent";
+        }
+      }
+
+      class Square {
+        constructor(x, y, size) {
+          this.x = x;
+          this.y = y;
+          this.width = size;
+          this.height = size;
+          this.color = "rgb(222, 161, 133)";
+          this.eaten = false;
+        }
+        renderSquare() {
+          if (!this.eaten) {
+            context.fillStyle = this.color;
+            context.beginPath();
+            context.fillRect(this.x, this.y, this.width, this.height);
+          }
+        }
+
+        markAsEaten() {
+          this.eaten = true;
+        }
+      }
+
+      class SquareGrid {
+        constructor(gridWidth, gridHeight, squareSize, spaceAround) {
+          this.initialX = 0;
+          this.initialY = 0;
+          this.gridStartX = 0;
+          this.gridStartY = 0;
+          this.gridWidth = gridWidth;
+          this.gridHeight = gridHeight;
+          this.squareSize = squareSize;
+          this.spaceAround = spaceAround;
+          this.squaresGrid = [];
+          this.numOfSquaresX = Math.floor(
+            gridWidth / (squareSize + spaceAround)
+          );
+          this.numOfSquaresY = Math.floor(
+            gridHeight / (squareSize + spaceAround)
+          );
+
+          this.createGrid();
+        }
+
+        createGrid() {
+          for (let i = 0; i < this.numOfSquaresX; i++) {
+            this.squaresGrid[i] = [];
+            for (let j = 0; j < this.numOfSquaresY; j++) {
+              this.gridStartX = i * (this.squareSize + this.spaceAround);
+              this.gridStartY = j * (this.squareSize + this.spaceAround);
+              this.squaresGrid[i][j] = new Square(
+                this.gridStartX,
+                this.gridStartY,
+                this.squareSize
+              );
+            }
+          }
+        }
+
+        renderGrid() {
+          for (let i = 0; i < this.numOfSquaresX; i++) {
+            for (let j = 0; j < this.numOfSquaresY; j++) {
+              this.squaresGrid[i][j].renderSquare();
+            }
+          }
+        }
+      }
+
+      class PacMan {
+        constructor() {
+          this.x = 0;
+          this.y = 0;
+          this.width = 50;
+          this.height = 50;
+          this.vx = 2;
+          this.vy = 2;
+          this.image = new Image();
+          this.image.src = "pacman.png";
+          this.collided = false;
+          this.direction = "right";
+        }
+
+        renderPacMan() {
+          context.drawImage(
+            this.image,
+            this.x,
+            this.y,
+            this.width,
+            this.height
+          );
+        }
+
+        movePacMan(squaresGrid) {
+          let squares = squaresGrid.squaresGrid;
+
+          switch (this.direction) {
+            case "right":
+              this.x += this.vx;
+              if (this.x + this.width >= squaresGrid.gridWidth) {
+                this.direction = "down";
+                squaresGrid.gridWidth -= this.width;
+              }
+              break;
+
+            case "down":
+              this.y += this.vy;
+              if (this.y + this.height >= squaresGrid.gridHeight) {
+                this.direction = "left";
+                squaresGrid.gridHeight -= this.height;
+              }
+              break;
+
+            case "left":
+              this.x += -this.vx;
+              if (this.x <= squaresGrid.initialX) {
+                this.direction = "up";
+                squaresGrid.initialX += this.width;
+              }
+              break;
+
+            case "up":
+              this.y += -this.vy;
+              if (this.y <= squaresGrid.initialY) {
+                this.direction = "right";
+                squaresGrid.initialY += this.height;
+              }
+              break;
+          }
+
+          if (squaresGrid.gridHeight <= 0 || squaresGrid.gridWidth <= 0) {
+            this.x = 0;
+            this.y = 0;
+          }
+        }
+
+        eatSquareWithCollision(squaresGrid) {
+          for (let i = 0; i < squaresGrid.numOfSquaresX; i++) {
+            for (let j = 0; j < squaresGrid.numOfSquaresY; j++) {
+              let square = squaresGrid.squaresGrid[i][j];
+
+              if (
+                pacMan.x + pacMan.width < square.x ||
+                pacMan.x > square.x + square.width ||
+                pacMan.y + pacMan.height < square.y ||
+                pacMan.y > square.y + square.height
+              ) {
+                pacMan.collided = false;
+              } else {
+                pacMan.collided = true;
+                square.markAsEaten();
+              }
+            }
+          }
+        }
+      }
+
+      // ### Instances ###
+
+      // Letter-Circles (h1 text) and their positioning
+
+      let heading = document.querySelector("h1");
+      let headingText = heading.textContent;
+
+      let headingMeasurement = context.measureText(headingText);
+
+      let numOfLetters = headingText.length;
+
+      let initialPositionX = canvas.width / 8 - headingMeasurement.width / 2;
+      let initialPositionY = 150;
+
+      let letterCircles = [];
+
+      for (let i = 0; i < numOfLetters; i++) {
+        let randomColor =
+          circleColors[Math.floor(Math.random() * circleColors.length)];
+        letterCircles.push(
+          new Circle(initialPositionX, initialPositionY, randomColor, 0)
+        );
+        letterCircles[i].letter = headingText[i];
+        initialPositionX += 50;
+      }
+
+      //Instance: Moving Circle
+
+      let movingCircle = new Circle(
+        canvas.width / 10,
+        initialPositionY,
+        "gray",
+        3
+      );
+
+      //Instance: Pointer Circle
+
+      let pointerCircle = new Circle(0, 0, "transparent", 0);
+
+      //Instance: square background
+
+      let squaresBackground = new SquareGrid(
+        canvas.width,
+        canvas.height,
+        2,
+        10
+      );
+
+      //Instance: PacMan
+
+      let pacMan = new PacMan();
+
+      // ### Start game (upon loading PacMan image) ###
+
+      pacMan.image.onload = function () {
+        startGame();
+      };
+
+      function startGame() {
+        updateGame();
+        window.requestAnimationFrame(drawGame);
+      }
+
+      // ### Update game ###
+
+      function updateGame() {
+        // GAME AND ANIMATION LOGIC GOES HERE
+
+        movingCircle.checkCollisionWithLaterals();
+        movingCircle.move();
+
+        for (let i = 0; i < numOfLetters; i++) {
+          letterCircles[i].revealUponCollision(
+            movingCircle.x,
+            movingCircle.y,
+            movingCircle.radius
+          );
+
+          letterCircles[i].moveToAfterCollision(
+            pointerCircle.x,
+            pointerCircle.y,
+            pointerCircle.radius
+          );
+
+          if (movingCircle.timesPassed > 3) {
+            letterCircles[i].revealPermanently();
+            movingCircle.stopMoving();
+          }
+        }
+
+        pointerCircle.follow(mouseX, mouseY);
+
+        movingCircle.moveToAfterCollision(
+          pointerCircle.x,
+          pointerCircle.y,
+          pointerCircle.radius
+        );
+
+        pacMan.movePacMan(squaresBackground);
+
+        pacMan.eatSquareWithCollision(squaresBackground);
+
+        // CHANGE THE NUMBER OF MILLISECONDS TO ADJUST FRAME RATE
+        window.setTimeout(updateGame, 17);
+      }
+
+      function drawGame() {
+        context.clearRect(0, 0, canvas.width, canvas.height);
+
+        // RENDERING HAPPENS HERE
+
+        squaresBackground.renderGrid();
+
+        //Rendering Letter-Circles
+        for (let i = 0; i < numOfLetters; i++) {
+          letterCircles[i].render();
+          letterCircles[i].renderLetters();
+        }
+
+        //Rendering movingCircle
+        movingCircle.render();
+
+        //Rendering pointerCircle
+        pointerCircle.render();
+
+        //rendering pacMac
+        pacMan.renderPacMan();
+
+        window.requestAnimationFrame(drawGame);
+      }
+    </script>
+  </body>
+</html>
